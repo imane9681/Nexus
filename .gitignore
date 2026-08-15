@@ -1,0 +1,39 @@
+# Node modules
+node_modules/
+npm-debug.log*
+package-lock.json
+yarn.lock
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.development
+
+# Build folders
+build/
+dist/
+.vercel/
+out/
+
+# Backend uploads
+backend/uploads/
+backend/reports/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Database
+*.sqlite
+*.db
+
+# Logs
+logs/
+*.log
