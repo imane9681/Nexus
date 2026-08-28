@@ -1266,8 +1266,7 @@ io.on('connection', async (socket) => {
                 username: socket.user.username,
                 user_id: socket.user.id,
                 roomId: roomId,
-                timestamp: new Date().toLocaleTimeString(),
-                created_at: result.rows[0].created_at
+                created_at: result.rows[0].created_at.toISOString()
             };
 
             io.to(`room_${roomId}`).emit('new-message', messageToSend);
