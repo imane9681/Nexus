@@ -11,26 +11,33 @@ function MembersModal({ token, roomId, darkMode, onClose }) {
   }, [roomId]);
 
   const fetchMembers = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/rooms/${roomId}/members`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await response.json();
+  try {
+    const response = await fetch(`http://localhost:5000/api/rooms/${roomId}/members`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await response.json();
+    // تأكد من أن البيانات هي مصفوفة
+    if (Array.isArray(data)) {
       setMembers(data);
-    } catch (error) {
-      console.error('Error fetching members:', error);
-    } finally {
-      setLoading(false);
+    } else {
+      console.error('Members data is not an array:', data);
+      setMembers([]); // تعيين مصفوفة فارغة لتجنب الخطأ
     }
-  };
+  } catch (error) {
+    console.error('Error fetching members:', error);
+    setMembers([]);
+  } finally {
+    setLoading(false);
+  }
+};
 
-  const filteredMembers = members.filter(member =>
-    member.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    member.email?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredMembers = Array.isArray(members) ? members.filter(member =>
+  member.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  member.email?.toLowerCase().includes(searchTerm.toLowerCase())
+) : [];
 
-  const onlineCount = members.filter(m => m.is_online).length;
-  const offlineCount = members.filter(m => !m.is_online).length;
+  const onlineCount = Array.isArray(members) ? members.filter(m => m.is_online).length : 0;
+  const offlineCount = Array.isArray(members) ? members.filter(m => !m.is_online).length : 0;
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in">
