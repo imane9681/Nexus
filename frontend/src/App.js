@@ -64,6 +64,8 @@ function App() {
 
   const PROTECTED_ROOMS = ['general', 'random', 'tech', 'gaming'];
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   // ✅ دالة لإضافة الإيموجي
   const onEmojiClick = (emojiObject) => {
     setInput(prev => prev + emojiObject.emoji);
@@ -87,7 +89,7 @@ function App() {
     formData.append('room_id', currentRoom);
 
     try {
-      const response = await fetch('http://localhost:5000/api/files/upload', {
+      const response = await fetch(`${API_URL}/api/files/upload`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -104,7 +106,7 @@ function App() {
           name: file.name,
           type: file.type,
           size: file.size,
-          url: `http://localhost:5000/api/files/${fileData.id}/download?token=${token}`
+          url: `${API_URL}/api/files/${fileData.id}/download?token=${token}`
         };
         
         setUploadedFiles(prev => ({
@@ -154,7 +156,7 @@ function App() {
         const fileData = JSON.parse(content);
         const fileInfo = uploadedFiles[fileData.fileId] || {
           ...fileData,
-          url: `http://localhost:5000/api/files/${fileData.fileId}/download?token=${token}`
+          url: `${API_URL}/api/files/${fileData.fileId}/download?token=${token}`
         };
         
         const isImage = fileInfo.fileType?.startsWith('image/') || fileData.fileType?.startsWith('image/');
@@ -253,7 +255,7 @@ function App() {
 
   const refreshRooms = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/rooms', {
+      const response = await fetch(`${API_URL}/api/rooms`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await response.json();
@@ -269,7 +271,7 @@ function App() {
     e.preventDefault();
     setError('');
     try {
-      const response = await fetch('http://localhost:5000/api/rooms', {
+      const response = await fetch(`${API_URL}/api/rooms`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -313,7 +315,7 @@ function App() {
     if (!confirmed) return false;
     
     try {
-      const response = await fetch(`http://localhost:5000/api/rooms/${roomId}`, {
+      const response = await fetch(`${API_URL}/api/rooms/${roomId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -341,7 +343,7 @@ function App() {
 
   const fetchUserInfo = async (authToken) => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/me', {
+      const response = await fetch(`${API_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${authToken}` }
       });
       if (response.ok) {
@@ -360,7 +362,7 @@ function App() {
 
   const fetchMessages = async (roomId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/rooms/${roomId}/messages`, {
+      const response = await fetch(`${API_URL}/api/rooms/${roomId}/messages`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await response.json();
@@ -372,7 +374,7 @@ function App() {
 
   const deleteMessage = async (messageId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/messages/${messageId}`, {
+      const response = await fetch(`${API_URL}/api/messages/${messageId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -428,7 +430,7 @@ function App() {
 
   useEffect(() => {
     if (isAuthenticated && token && !socket) {
-      const newSocket = io('http://localhost:5000', {
+      const newSocket = io(`${API_URL}`, {
         auth: { token },
         transports: ['websocket']
       });
@@ -530,7 +532,7 @@ function App() {
   };
 
   const handleLogin = async (username, password) => {
-    const response = await fetch('http://localhost:5000/api/auth/login', {
+    const response = await fetch(`${API_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
@@ -544,7 +546,7 @@ function App() {
   };
 
   const handleRegister = async (username, email, password) => {
-    const response = await fetch('http://localhost:5000/api/auth/register', {
+    const response = await fetch(`${API_URL}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, email, password })

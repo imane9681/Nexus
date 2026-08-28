@@ -1,5 +1,7 @@
 import { io } from 'socket.io-client';
 
+const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000';
+
 let socket = null;
 let isConnecting = false;
 
@@ -14,7 +16,7 @@ export const getSocket = (token) => {
   
   isConnecting = true;
   
-  socket = io('http://localhost:5000', {
+  socket = io(SOCKET_URL, {
     auth: { token },
     transports: ['websocket'],
     reconnection: true,
