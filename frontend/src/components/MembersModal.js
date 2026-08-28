@@ -5,36 +5,53 @@ function MembersModal({ token, roomId, darkMode, onClose }) {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchMembers();
   }, [roomId]);
 
   const fetchMembers = async () => {
-  try {
-    const response = await fetch(`http://localhost:5000/api/rooms/${roomId}/members`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    const data = await response.json();
-    // تأكد من أن البيانات هي مصفوفة
-    if (Array.isArray(data)) {
-      setMembers(data);
-    } else {
-      console.error('Members data is not an array:', data);
-      setMembers([]); // تعيين مصفوفة فارغة لتجنب الخطأ
+    setLoading(true);
+    setError(null);
+    
+    console.log('🔑 Token being sent:', token);
+    console.log('🏠 Room ID:', roomId);
+    
+    try {
+      const response = await fetch(`http://localhost:5000/api/rooms/${roomId}/members`, {
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      console.log('📡 Response status:', response.status);
+      
+      const data = await response.json();
+      console.log('📥 Members data received:', data);
+      console.log('📋 Is array?', Array.isArray(data));
+      
+      if (Array.isArray(data)) {
+        setMembers(data);
+      } else {
+        console.error('❌ Members data is not an array:', data);
+        setError('Received invalid data format');
+        setMembers([]);
+      }
+    } catch (error) {
+      console.error('❌ Error fetching members:', error);
+      setError(error.message);
+      setMembers([]);
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error('Error fetching members:', error);
-    setMembers([]);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   const filteredMembers = Array.isArray(members) ? members.filter(member =>
-  member.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  member.email?.toLowerCase().includes(searchTerm.toLowerCase())
-) : [];
+    member.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    member.email?.toLowerCase().includes(searchTerm.toLowerCase())
+  ) : [];
 
   const onlineCount = Array.isArray(members) ? members.filter(m => m.is_online).length : 0;
   const offlineCount = Array.isArray(members) ? members.filter(m => !m.is_online).length : 0;
@@ -70,6 +87,15 @@ function MembersModal({ token, roomId, darkMode, onClose }) {
             <HiX size={18} className={darkMode ? 'text-gray-400' : 'text-gray-500'} />
           </button>
         </div>
+        
+        {/* Error Message */}
+        {error && (
+          <div className={`mx-4 mt-4 p-3 rounded-xl ${darkMode ? 'bg-red-900/30 border-red-700' : 'bg-red-50 border-red-200'} border`}>
+            <p className={`text-sm ${darkMode ? 'text-red-400' : 'text-red-600'}`}>
+              ⚠️ Error: {error}
+            </p>
+          </div>
+        )}
         
         {/* Search Bar */}
         <div className={`p-4 border-b ${
