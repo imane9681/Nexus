@@ -7,6 +7,8 @@ function NotificationBell({ token, darkMode, onNavigate }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   useEffect(() => {
     fetchNotifications();
     const interval = setInterval(fetchNotifications, 30000);
@@ -25,7 +27,7 @@ function NotificationBell({ token, darkMode, onNavigate }) {
 
   const fetchNotifications = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/notifications', {
+      const response = await fetch(`${API_URL}/api/notifications`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -38,7 +40,7 @@ function NotificationBell({ token, darkMode, onNavigate }) {
 
   const markAsRead = async (id) => {
     try {
-      await fetch(`http://localhost:5000/api/notifications/${id}/read`, {
+      await fetch(`${API_URL}/api/notifications/${id}/read`, {
         method: 'PATCH',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -50,7 +52,7 @@ function NotificationBell({ token, darkMode, onNavigate }) {
 
   const markAllAsRead = async () => {
     try {
-      await fetch('http://localhost:5000/api/notifications/read-all', {
+      await fetch(`${API_URL}/api/notifications/read-all`, {
         method: 'PATCH',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -63,7 +65,7 @@ function NotificationBell({ token, darkMode, onNavigate }) {
   const deleteNotification = async (id, e) => {
     e.stopPropagation();
     try {
-      await fetch(`http://localhost:5000/api/notifications/${id}`, {
+      await fetch(`${API_URL}/api/notifications/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

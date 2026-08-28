@@ -16,7 +16,7 @@ const StatCard = ({ icon: Icon, title, value, color, darkMode }) => {
     };
     return gradients[color] || gradients.blue;
   };
-
+  
   return (
     <div className={`relative rounded-2xl p-4 transition-all duration-300 hover:shadow-lg overflow-hidden ${getGradient()}`}>
       <div className="relative z-10">
@@ -136,6 +136,9 @@ function Calendar({ token, darkMode }) {
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const colors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4', '#f97316'];
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
+
   useEffect(() => {
     fetchEvents();
   }, [currentDate]);
@@ -147,7 +150,7 @@ function Calendar({ token, darkMode }) {
     
     try {
       const response = await fetch(
-        `http://localhost:5000/api/calendar/events?start=${start.toISOString()}&end=${end.toISOString()}`,
+        `${API_URL}/api/calendar/events?start=${start.toISOString()}&end=${end.toISOString()}`,
         { headers: { 'Authorization': `Bearer ${token}` } }
       );
       const data = await response.json();
@@ -162,7 +165,7 @@ function Calendar({ token, darkMode }) {
   const createEvent = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/calendar/events', {
+      const response = await fetch(`${API_URL}/api/calendar/events`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -185,7 +188,7 @@ function Calendar({ token, darkMode }) {
     if (!editingEvent) return;
     
     try {
-      const response = await fetch(`http://localhost:5000/api/calendar/events/${editingEvent.id}`, {
+      const response = await fetch(`${API_URL}/api/calendar/events/${editingEvent.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -215,7 +218,7 @@ function Calendar({ token, darkMode }) {
     if (!deletingEventId) return;
     
     try {
-      const response = await fetch(`http://localhost:5000/api/calendar/events/${deletingEventId}`, {
+      const response = await fetch(`${API_URL}/api/calendar/events/${deletingEventId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

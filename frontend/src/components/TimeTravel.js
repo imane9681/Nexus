@@ -15,6 +15,7 @@ const StatCard = ({ icon: Icon, title, value, color, darkMode }) => {
     return gradients[color] || gradients.blue;
   };
 
+
   return (
     <div className={`relative rounded-2xl p-4 transition-all duration-300 hover:shadow-lg overflow-hidden ${getGradient()}`}>
       <div className="relative z-10">
@@ -291,12 +292,15 @@ function TimeTravel({ token, darkMode, onRestore, onBackToChat }) {
   const [successMessage, setSuccessMessage] = useState(null);
   const itemsPerPage = 20;
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
+
   const fetchHistory = useCallback(async () => {
     setLoadingMessages(true);
     try {
       const offset = (page - 1) * itemsPerPage;
       const response = await fetch(
-        `http://localhost:5000/api/messages/history?limit=${itemsPerPage}&offset=${offset}&includeDeleted=${showDeleted}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
+        `${API_URL}/api/messages/history?limit=${itemsPerPage}&offset=${offset}&includeDeleted=${showDeleted}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
         { headers: { 'Authorization': `Bearer ${token}` } }
       );
       const data = await response.json();
@@ -311,7 +315,7 @@ function TimeTravel({ token, darkMode, onRestore, onBackToChat }) {
 
   const fetchStats = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/timeline/stats`, {
+      const response = await fetch(`${API_URL}/api/timeline/stats`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -324,7 +328,7 @@ function TimeTravel({ token, darkMode, onRestore, onBackToChat }) {
   const fetchBackups = useCallback(async (messageId) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/backups/${messageId}`, {
+      const response = await fetch(`${API_URL}/api/backups/${messageId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -341,7 +345,7 @@ function TimeTravel({ token, darkMode, onRestore, onBackToChat }) {
   const handleRestore = async (backupId) => {
     setRestoring(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/restore/${backupId}`, {
+      const response = await fetch(`${API_URL}/api/restore/${backupId}`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${token}`,

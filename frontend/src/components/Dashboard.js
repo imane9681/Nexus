@@ -30,6 +30,7 @@ const StatCard = ({ icon: Icon, title, value, subtext, color, darkMode }) => {
     return val;
   };
 
+
   return (
     <div className={`relative rounded-2xl p-5 transition-all duration-300 hover:shadow-xl hover:scale-[1.02] overflow-hidden ${getGradient()}`}>
       <div className="absolute -bottom-20 -right-20 w-[200px] h-[200px] rounded-full bg-white/10"></div>
@@ -311,9 +312,12 @@ function Dashboard({ token, darkMode }) {
   const [activityData, setActivityData] = useState([]);
   const [messagesDistribution, setMessagesDistribution] = useState([]);
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
+
   const fetchMessagesDistribution = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/stats/messages-distribution', {
+      const response = await fetch(`${API_URL}/api/stats/messages-distribution`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -339,7 +343,7 @@ function Dashboard({ token, darkMode }) {
 
   const fetchUserActivity = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/stats/user-activity', {
+      const response = await fetch(`${API_URL}/api/stats/user-activity`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -374,13 +378,13 @@ function Dashboard({ token, darkMode }) {
     setLoading(true);
     try {
       const [serverRes, userRes, pingRes] = await Promise.all([
-        fetch('http://localhost:5000/api/stats/server', {
+        fetch(`${API_URL}/api/stats/server`, {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
-        fetch('http://localhost:5000/api/stats/user', {
+        fetch(`${API_URL}/api/stats/user`, {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
-        fetch('http://localhost:5000/api/stats/ping', {
+        fetch(`${API_URL}/api/stats/ping`, {
           headers: { 'Authorization': `Bearer ${token}` }
         })
       ]);

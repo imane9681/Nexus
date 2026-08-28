@@ -19,6 +19,7 @@ const StatCard = ({ icon: Icon, title, value, color, darkMode }) => {
     return gradients[color] || gradients.blue;
   };
 
+
   return (
     <div className={`relative rounded-2xl p-4 transition-all duration-300 hover:shadow-lg overflow-hidden ${getGradient()}`}>
       <div className="absolute -bottom-20 -right-20 w-[200px] h-[200px] rounded-full bg-white/10"></div>
@@ -123,6 +124,9 @@ function ReportsPanel({ token, darkMode }) {
   const [selectedRoom, setSelectedRoom] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
+
   useEffect(() => {
     fetchReports();
     fetchRooms();
@@ -132,7 +136,7 @@ function ReportsPanel({ token, darkMode }) {
   const fetchReports = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/reports', {
+      const response = await fetch(`${API_URL}/api/reports`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -146,7 +150,7 @@ function ReportsPanel({ token, darkMode }) {
 
   const fetchRooms = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/rooms', {
+      const response = await fetch(`${API_URL}/api/rooms`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -158,7 +162,7 @@ function ReportsPanel({ token, darkMode }) {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/reports/stats', {
+      const response = await fetch(`${API_URL}/api/reports/stats`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -175,7 +179,7 @@ function ReportsPanel({ token, darkMode }) {
       let body = {};
       
       if (reportType === 'tasks') {
-        endpoint = 'http://localhost:5000/api/reports/tasks';
+        endpoint = `${API_URL}/api/reports/tasks`;
         body = {
           startDate: dateRange.startDate,
           endDate: dateRange.endDate,
@@ -183,14 +187,14 @@ function ReportsPanel({ token, darkMode }) {
           includeArchived
         };
       } else if (reportType === 'chat') {
-        endpoint = 'http://localhost:5000/api/reports/chat';
+        endpoint = `${API_URL}/api/reports/chat`;
         body = {
           roomId: selectedRoom,
           startDate: dateRange.startDate,
           endDate: dateRange.endDate
         };
       } else if (reportType === 'statistics') {
-        endpoint = 'http://localhost:5000/api/reports/statistics';
+        endpoint = `${API_URL}/api/reports/statistics`;
         body = {};
       }
       
@@ -215,13 +219,13 @@ function ReportsPanel({ token, darkMode }) {
   };
 
   const downloadReport = (filename) => {
-    window.open(`http://localhost:5000/api/reports/download/${filename}?token=${token}`, '_blank');
+    window.open(`${API_URL}/api/reports/download/${filename}?token=${token}`, '_blank');
   };
 
   const deleteReport = async (filename) => {
     if (window.confirm('Are you sure you want to delete this report?')) {
       try {
-        await fetch(`http://localhost:5000/api/reports/${filename}`, {
+        await fetch(`${API_URL}/api/reports/${filename}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });

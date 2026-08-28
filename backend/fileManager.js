@@ -79,30 +79,31 @@ const uploadFile = (req, res) => {
 
 // تحميل ملف
 const downloadFile = async (fileId, filename) => {
-  try {
-    const response = await fetch(`http://localhost:5000/api/files/${fileId}/download`, {
-      method: 'GET',
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
+    const API_URL = process.env.API_URL || 'http://localhost:5000';
+    try {
+        const response = await fetch(`${API_URL}/api/files/${fileId}/download`, {
+            method: 'GET',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
     
-    if (response.ok) {
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-    } else {
-      const error = await response.json();
-      alert(error.error || 'Download failed');
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        } else {
+            const error = await response.json();
+            alert(error.error || 'Download failed');
+        }
+    } catch (error) {
+        console.error('Error downloading file:', error);
+        alert('Download failed');
     }
-  } catch (error) {
-    console.error('Error downloading file:', error);
-    alert('Download failed');
-  }
 };
 
 // حذف ملف

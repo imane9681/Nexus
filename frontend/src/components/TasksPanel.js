@@ -30,6 +30,7 @@ const CustomSelect = ({ value, onChange, options, placeholder, icon: Icon, darkM
 
   const selectedOption = options.find(opt => opt.value === value);
 
+
   return (
     <div className="relative" ref={selectRef}>
       <button
@@ -569,6 +570,9 @@ function TasksPanel({ token, darkMode }) {
   const [sortOrder, setSortOrder] = useState('DESC');
   const limit = 10;
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
+
   useEffect(() => {
     fetchTasks();
     fetchUsers();
@@ -579,7 +583,7 @@ function TasksPanel({ token, darkMode }) {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:5000/api/tasks?filter=${filter}&page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
+        `${API_URL}/api/tasks?filter=${filter}&page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
         { headers: { 'Authorization': `Bearer ${token}` } }
       );
       const data = await response.json();
@@ -594,7 +598,7 @@ function TasksPanel({ token, darkMode }) {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch(`${API_URL}/api/users`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -606,7 +610,7 @@ function TasksPanel({ token, darkMode }) {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/tasks/stats', {
+      const response = await fetch(`${API_URL}/api/tasks/stats`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -619,7 +623,7 @@ function TasksPanel({ token, darkMode }) {
   const createTask = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/tasks', {
+      const response = await fetch(`${API_URL}/api/tasks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -643,7 +647,7 @@ function TasksPanel({ token, darkMode }) {
     if (!editingTask) return;
     
     try {
-      const response = await fetch(`http://localhost:5000/api/tasks/${editingTask.id}`, {
+      const response = await fetch(`${API_URL}/api/tasks/${editingTask.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -687,7 +691,7 @@ function TasksPanel({ token, darkMode }) {
 
   const updateStatus = async (taskId, status) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/tasks/${taskId}/status`, {
+      const response = await fetch(`${API_URL}/api/tasks/${taskId}/status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -706,7 +710,7 @@ function TasksPanel({ token, darkMode }) {
 
   const archiveTask = async (taskId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/tasks/${taskId}/archive`, {
+      const response = await fetch(`${API_URL}/api/tasks/${taskId}/archive`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -721,7 +725,7 @@ function TasksPanel({ token, darkMode }) {
 
   const unarchiveTask = async (taskId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/tasks/${taskId}/unarchive`, {
+      const response = await fetch(`${API_URL}/api/tasks/${taskId}/unarchive`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -737,7 +741,7 @@ function TasksPanel({ token, darkMode }) {
   const softDeleteTask = async (taskId) => {
     if (window.confirm('Move this task to trash? You can restore it within 30 days.')) {
       try {
-        const response = await fetch(`http://localhost:5000/api/tasks/${taskId}/soft`, {
+        const response = await fetch(`${API_URL}/api/tasks/${taskId}/soft`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -753,7 +757,7 @@ function TasksPanel({ token, darkMode }) {
 
   const restoreTask = async (taskId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/tasks/${taskId}/restore`, {
+      const response = await fetch(`${API_URL}/api/tasks/${taskId}/restore`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -769,7 +773,7 @@ function TasksPanel({ token, darkMode }) {
   const permanentDeleteTask = async (taskId) => {
     if (window.confirm('Permanently delete this task? This action cannot be undone.')) {
       try {
-        const response = await fetch(`http://localhost:5000/api/tasks/${taskId}/permanent`, {
+        const response = await fetch(`${API_URL}/api/tasks/${taskId}/permanent`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });

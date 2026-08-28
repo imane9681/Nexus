@@ -17,6 +17,7 @@ const StatCard = ({ icon: Icon, title, value, color, darkMode }) => {
     return gradients[color] || gradients.blue;
   };
 
+
   return (
     <div className={`relative rounded-2xl p-4 transition-all duration-300 hover:shadow-lg overflow-hidden ${getGradient()}`}>
       <div className="relative z-10">
@@ -473,13 +474,16 @@ function FileManager({ token, darkMode, roomId = null }) {
   const [viewMode, setViewMode] = useState('folders');
   const [toast, setToast] = useState(null);
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
+
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
   };
 
   const fetchAllFolders = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/folders/all', {
+      const response = await fetch(`${API_URL}/api/folders/all`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (response.ok) {
@@ -495,7 +499,7 @@ function FileManager({ token, darkMode, roomId = null }) {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:5000/api/files?folder=${encodeURIComponent(currentFolder)}&limit=100&offset=0&search=${search}`,
+        `${API_URL}/api/files?folder=${encodeURIComponent(currentFolder)}&limit=100&offset=0&search=${search}`,
         { headers: { 'Authorization': `Bearer ${token}` } }
       );
       const data = await response.json();
@@ -511,7 +515,7 @@ function FileManager({ token, darkMode, roomId = null }) {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:5000/api/files/all?limit=100&offset=0&search=${search}`,
+        `${API_URL}/api/files/all?limit=100&offset=0&search=${search}`,
         { headers: { 'Authorization': `Bearer ${token}` } }
       );
       const data = await response.json();
@@ -525,7 +529,7 @@ function FileManager({ token, darkMode, roomId = null }) {
 
   const fetchStats = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/files/stats', {
+      const response = await fetch(`${API_URL}/api/files/stats`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -555,7 +559,7 @@ function FileManager({ token, darkMode, roomId = null }) {
     if (roomId) formData.append('room_id', roomId);
     
     try {
-      const response = await fetch('http://localhost:5000/api/files/upload', {
+      const response = await fetch(`${API_URL}/api/files/upload`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData
@@ -589,7 +593,7 @@ function FileManager({ token, darkMode, roomId = null }) {
       const newFolderPath = currentFolder === '/' ? `/${folderName}` : `${currentFolder}/${folderName}`;
       formData.append('folder', newFolderPath);
       
-      const response = await fetch('http://localhost:5000/api/files/upload', {
+      const response = await fetch(`${API_URL}/api/files/upload`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData
@@ -610,7 +614,7 @@ function FileManager({ token, darkMode, roomId = null }) {
   };
 
   const downloadFile = (fileId, filename) => {
-    window.open(`http://localhost:5000/api/files/${fileId}/download?token=${token}`, '_blank');
+    window.open(`${API_URL}/api/files/${fileId}/download?token=${token}`, '_blank');
     showToast(`Downloading "${filename}"...`, 'success');
   };
 
@@ -631,12 +635,12 @@ function FileManager({ token, darkMode, roomId = null }) {
     try {
       let response;
       if (deleteIsFolder) {
-        response = await fetch(`http://localhost:5000/api/folders/${encodeURIComponent(deleteTarget)}`, {
+        response = await fetch(`${API_URL}/api/folders/${encodeURIComponent(deleteTarget)}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
       } else {
-        response = await fetch(`http://localhost:5000/api/files/${deleteTarget}`, {
+        response = await fetch(`${API_URL}/api/files/${deleteTarget}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -683,7 +687,7 @@ function FileManager({ token, darkMode, roomId = null }) {
     if (!movingFile) return;
     
     try {
-      const response = await fetch(`http://localhost:5000/api/files/${movingFile.id}/move`, {
+      const response = await fetch(`${API_URL}/api/files/${movingFile.id}/move`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

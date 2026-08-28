@@ -17,13 +17,15 @@ function SettingsModal({ token, darkMode, onClose, onThemeChange }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   useEffect(() => {
     fetchSettings();
   }, []);
 
   const fetchSettings = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/user/settings', {
+      const response = await fetch(`${API_URL}/api/user/settings`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -38,7 +40,7 @@ function SettingsModal({ token, darkMode, onClose, onThemeChange }) {
   const saveSettings = async () => {
     setSaving(true);
     try {
-      const response = await fetch('http://localhost:5000/api/user/settings', {
+      const response = await fetch(`${API_URL}/api/user/settings`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

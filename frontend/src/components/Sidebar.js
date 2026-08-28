@@ -31,6 +31,8 @@ function Sidebar({
 
   const PROTECTED_ROOMS = ['general', 'random', 'tech', 'gaming'];
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   useEffect(() => {
     if (onCollapseChange) {
       onCollapseChange(isCollapsed);
@@ -42,7 +44,7 @@ function Sidebar({
     e.preventDefault();
     setError('');
     try {
-      const response = await fetch('http://localhost:5000/api/rooms', {
+      const response = await fetch(`${API_URL}/api/rooms`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

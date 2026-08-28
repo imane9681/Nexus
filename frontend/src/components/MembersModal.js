@@ -19,7 +19,7 @@ function MembersModal({ token, roomId, darkMode, onClose }) {
     console.log('🏠 Room ID:', roomId);
     
     try {
-      const response = await fetch(`http://localhost:5000/api/rooms/${roomId}/members`, {
+      const response = await fetch(`${API_URL}/api/rooms/${roomId}/members`, {
         headers: { 
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -55,6 +55,8 @@ function MembersModal({ token, roomId, darkMode, onClose }) {
 
   const onlineCount = Array.isArray(members) ? members.filter(m => m.is_online).length : 0;
   const offlineCount = Array.isArray(members) ? members.filter(m => !m.is_online).length : 0;
+
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in">
