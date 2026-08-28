@@ -273,17 +273,31 @@ app.get('/api/rooms/:roomId/messages', verifyToken, async (req, res) => {
 app.get('/api/rooms/:roomId/members', verifyToken, async (req, res) => {
     const { roomId } = req.params;
     try {
+        // أولاً: جلب جميع المستخدمين الذين أرسلوا رسائل في هذه الغرفة
         const result = await pool.query(`
-            SELECT DISTINCT u.id, u.username, u.email, u.avatar_url, u.is_online, u.last_seen
+            SELECT DISTINCT u.id, u.username, u.email, u.is_online, u.last_seen
             FROM users u
-            JOIN messages m ON u.id = m.user_id
+            INNER JOIN messages m ON u.id = m.user_id
             WHERE m.room_id = $1
             ORDER BY u.is_online DESC, u.username ASC
         `, [roomId]);
-        res.json(result.rows);
+        
+        // إذا لم يكن هناك أعضاء، أعد مصفوفة فارغة
+        res.json(result.rows || []);
     } catch (error) {
         console.error('Error fetching members:', error);
-        res.status(500).json({ error: 'Failed to fetch members' });
+        // إذا فشل الـ JOIN، حاول جلب جميع المستخدمين (كحل بديل)
+        try {
+            const allUsers = await pool.query(`
+                SELECT id, username, email, is_online, last_seen
+                FROM users
+                ORDER BY is_online DESC, username ASC
+            `);
+            res.json(allUsers.rows);
+        } catch (fallbackError) {
+            console.error('Fallback error:', fallbackError);
+            res.status(500).json({ error: 'Failed to fetch members' });
+        }
     }
 });
 
