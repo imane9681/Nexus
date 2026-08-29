@@ -79,7 +79,7 @@ const CustomSelect = ({ value, onChange, options, placeholder, icon: Icon, darkM
 const StatCard = ({ icon: Icon, title, value, color, darkMode }) => {
   const getGradient = () => {
     const gradients = {
-      white: 'bg-white/20 shadow-sm',
+      white: 'bg-white/20 drop-shadow-xl shadow-md',
      
     };
     return gradients[color] || gradients.blue;
