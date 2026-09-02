@@ -323,10 +323,10 @@ function Dashboard({ token, darkMode }) {
       const data = await response.json();
       
       const roomColors = {
-        general: '#3b83f6ad',
-        tech: '#8a5cf6a9',
-        random: '#10b981aa',
-        gaming: '#f59f0bb0'
+        general: '#3b83f6c2',
+        tech: '#8a5cf6c9',
+        random: '#10b981c8',
+        gaming: '#f59b0bc8'
       };
       
       const distribution = data.map(item => ({
