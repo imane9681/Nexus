@@ -326,7 +326,7 @@ function Dashboard({ token, darkMode }) {
         general: '#3b83f6c2',
         tech: '#8a5cf6c9',
         random: '#10b981c8',
-        gaming: '#f5780bd2'
+        gaming: '#f4882ad2'
       };
       
       const distribution = data.map(item => ({
