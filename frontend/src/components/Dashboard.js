@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {
-  HiUsers, HiChat, HiArchive, HiClock, HiUser, HiMail,
-  HiDatabase, HiRefresh, HiChip, HiGlobeAlt, HiTrendingUp,
-  HiCog, HiServer, HiCalendar, HiChartPie,
-  HiDownload, HiShare, HiBell, HiCheckCircle, HiExclamationCircle,
+  HiUsers, HiChat, HiArchive, HiClock, HiUser,
+  HiDatabase, HiRefresh, HiChip, HiTrendingUp,
+  HiServer, HiCalendar, HiChartPie, HiShare, HiBell, HiCheckCircle, HiExclamationCircle,
   HiChartSquareBar, HiTable, HiChartBar, HiHashtag
 } from 'react-icons/hi';
 import {
   AreaChart, Area, BarChart, Bar,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, Legend
+  PieChart, Pie, Cell
 } from 'recharts';
 
 // ==================== Component لبطاقة الإحصائيات ====================
