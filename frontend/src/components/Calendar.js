@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   HiChevronLeft, HiChevronRight, HiPlus, HiX, 
-  HiCalendar, HiClock, HiTrash, HiPencil, HiCheckCircle,
+  HiCalendar, HiTrash, HiPencil,
   HiOutlineCalendar, HiOutlineClock, HiTag, HiColorSwatch,
-  HiBell, HiRefresh, HiChevronDown, HiSun, HiMoon,
-  HiViewList, HiViewGrid, HiFilter, HiStar, HiUsers
+  HiBell, HiRefresh, HiStar,
 } from 'react-icons/hi';
 
 // ==================== Component لبطاقة الإحصائيات ====================

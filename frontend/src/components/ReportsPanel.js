@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   HiDocumentText, HiDownload, HiTrash, HiCalendar, 
   HiChartBar, HiChat, HiX, HiRefresh, HiPlus,
-  HiFilter, HiClock, HiUser, HiHashtag, HiCheckCircle,
+  HiHashtag,
   HiDocument, HiTrendingUp, HiChip, HiDatabase
 } from 'react-icons/hi';
 

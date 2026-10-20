@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { 
   HiUpload, HiFolder, HiDocument, HiPhotograph, HiTrash, 
   HiDownload, HiDatabase, HiX, HiCloudUpload, HiDocumentText,
-  HiRefresh, HiFolderOpen, HiPlus, HiSearch, HiFilter,
-  HiChip, HiChartBar, HiClock, HiHome, HiFolderAdd,
-  HiArrowNarrowRight, HiViewGrid, HiViewList, HiDotsVertical
+  HiRefresh, HiFolderOpen, HiSearch,
+  HiChip, HiChartBar, HiHome, HiFolderAdd,
+  HiViewGrid, HiViewList, HiDotsVertical
 } from 'react-icons/hi';
 
 // ==================== StatCard Component ====================

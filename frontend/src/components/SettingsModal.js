@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   HiX, HiSun, HiMoon, HiBell, HiMail, HiGlobe, HiUser, HiSave,
-  HiTag, HiUserCircle, HiCheckCircle, HiOutlineBell, HiOutlineMail,
-  HiLanguage, HiPencil, HiSparkles
+  HiSparkles
 } from 'react-icons/hi';
 
 function SettingsModal({ token, darkMode, onClose, onThemeChange }) {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   HiPlus, HiHashtag, HiChat, HiSparkles, HiChip, HiMusicNote, 
   HiOutlineUsers, HiOutlineCog, HiChevronDown, HiChevronRight,
-  HiChartBar, HiClipboardList, HiCalendar, HiFolder, HiDocumentText, HiClock,
+  HiClipboardList, HiCalendar, HiFolder, HiDocumentText, HiClock,
   HiChevronLeft, HiTrash, HiX
 } from 'react-icons/hi';
 import { TbLayoutDashboardFilled } from "react-icons/tb";

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HiX, HiUserCircle, HiMail, HiCalendar, HiUsers, HiCheckCircle, HiClock } from 'react-icons/hi';
+import { HiX, HiMail, HiCalendar, HiUsers, HiCheckCircle, HiClock } from 'react-icons/hi';
 
 function MembersModal({ token, roomId, darkMode, onClose }) {
   const [members, setMembers] = useState([]);

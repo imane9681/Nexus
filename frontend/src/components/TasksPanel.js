@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { 
-  HiPlus, HiTrash, HiPencil, HiCheck, HiClock, 
-  HiFlag, HiUser, HiCalendar, HiX, HiRefresh,
-  HiClipboardList, HiInbox, HiCheckCircle, HiUserAdd,
-  HiArchive, HiDownload, HiSearch, HiFilter,
-  HiChevronLeft, HiChevronRight, HiChartBar,
-  HiTrendingUp, HiSparkles, HiCalendar as HiCalendarIcon,
+  HiPlus, HiTrash, HiPencil, HiClock, 
+  HiFlag, HiUser,  HiX, HiRefresh,
+  HiClipboardList,  HiCheckCircle, 
+  HiArchive,  HiSearch, 
+  HiChevronLeft, HiChevronRight,
+  HiTrendingUp,  HiCalendar as HiCalendarIcon,
   HiSortAscending, HiSortDescending, HiStar,
-  HiEye, HiEyeOff, HiCheck as HiCheckIcon,
-  HiMenu, HiViewList, HiViewGrid, HiTag, HiPaperClip,
+  HiCheck as HiCheckIcon,
+  HiTag, HiPaperClip,
   HiChevronDown
 } from 'react-icons/hi';
 

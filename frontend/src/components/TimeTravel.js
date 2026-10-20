@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { 
-  HiClock, HiArchive, HiRefresh, HiFilter, HiCalendar, HiSearch, HiX,
-  HiTrash, HiUser, HiChat, HiDatabase, HiTrendingUp, HiDocumentText,
-  HiChevronLeft, HiChevronRight, HiEye, HiEyeOff, HiStar, HiSparkles,
-  HiPlus, HiSortAscending, HiSortDescending, HiCheck, HiArrowLeft, HiChevronDown
+  HiClock, HiArchive, HiRefresh, HiCalendar, HiSearch, HiX,
+  HiTrash, HiUser, HiChat, HiDatabase, HiTrendingUp,
+  HiChevronLeft, HiChevronRight, HiStar, 
+  HiCheck, HiArrowLeft, HiChevronDown
 } from 'react-icons/hi';
 
 // ==================== Component لبطاقة الإحصائيات ====================
