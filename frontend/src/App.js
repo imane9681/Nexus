@@ -3,8 +3,8 @@ import { io } from 'socket.io-client';
 import { 
   HiLogout, HiTrash, HiPaperAirplane, 
   HiSearch, HiMenu, HiX, HiChat, HiSun, HiMoon, 
-  HiUserCircle, HiEmojiHappy, HiPaperClip, HiGif,
-  HiMicrophone, HiPlusCircle, HiPhotograph, HiSparkles,
+  HiEmojiHappy, HiPaperClip,
+  HiPhotograph,
   HiDownload, HiDocument, HiEye
 } from 'react-icons/hi';
 import Login from './components/Login';
