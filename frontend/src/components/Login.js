@@ -24,7 +24,6 @@ function Login({ onLogin, onRegister, isConnected }) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  // تحميل البيانات المحفوظة عند تحميل الصفحة
   useEffect(() => {
     const savedUsername = localStorage.getItem('saved_username');
     const savedRemember = localStorage.getItem('remember_me');
@@ -48,7 +47,6 @@ function Login({ onLogin, onRegister, isConnected }) {
     try {
       if (isLogin) {
         await onLogin(username, password);
-        // حفظ البيانات إذا تم اختيار "تذكرني"
         if (rememberMe) {
           localStorage.setItem('saved_username', username);
           localStorage.setItem('remember_me', 'true');
@@ -66,7 +64,6 @@ function Login({ onLogin, onRegister, isConnected }) {
     }
   };
 
-  // منع autofill القديم باستخدام خاصية unique لكل حقل
   const randomId = Math.random().toString(36).substring(2, 10);
 
   return (
@@ -231,25 +228,38 @@ function Login({ onLogin, onRegister, isConnected }) {
                 </div>
               )}
 
-              {/* Remember Me - فقط في وضع تسجيل الدخول */}
+              {/* Remember Me & Forgot Password - التصميم الاحترافي المخصص */}
               {isLogin && (
-                <div className="flex items-center justify-between pt-1">
-                  <label className="flex items-center gap-1.5 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                      className="w-3.5 h-3.5 text-blue-600 rounded focus:ring-blue-500"
-                    />
-                    <span className="text-xs text-gray-600">Remember me</span>
+                <div className="flex items-center justify-between py-1">
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <div className="relative flex items-center justify-center">
+                      <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                        className="peer appearance-none w-4 h-4 border border-gray-300 rounded focus:outline-none checked:bg-blue-600 checked:border-blue-600 transition-all cursor-pointer"
+                      />
+                      <svg
+                        className="absolute w-3 h-3 text-white pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-600 group-hover:text-gray-800 transition-colors">
+                      Remember me
+                    </span>
                   </label>
-                  <a href="#" className="text-xs text-blue-600 hover:text-blue-700">
+                  <a href="#" className="text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors">
                     Forgot password?
                   </a>
                 </div>
               )}
 
-              {/* Demo Account Section - Enhanced */}
+              {/* Demo Account Section - التصميم القديم الذي أعجبك */}
               {isLogin && (
                 <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 p-4">
                   {/* خلفية زخرفية */}
@@ -299,7 +309,7 @@ function Login({ onLogin, onRegister, isConnected }) {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium rounded-lg hover:shadow-lg transform hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium rounded-lg hover:shadow-lg transform hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
               >
                 {loading ? (
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
