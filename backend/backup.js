@@ -8,7 +8,6 @@ const createBackup = async (messageId, content) => {
              VALUES ($1, $2) RETURNING id, backed_up_at`,
             [messageId, content]
         );
-        console.log(`✅ Backup created for message ${messageId}`);
         return result.rows[0];
     } catch (error) {
         console.error('❌ Error creating backup:', error.message);

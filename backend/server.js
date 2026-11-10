@@ -51,21 +51,17 @@ const verifyToken = (req, res, next) => {
 
 // ========== الحذف التلقائي للمهام القديمة ==========
 cron.schedule('0 0 * * *', async () => {
-    console.log('🔄 Running auto cleanup...');
     const count = await tasks.autoCleanupTrash();
-    console.log(`✅ Auto cleanup completed: ${count} tasks permanently deleted`);
 });
 
 // ========== الحذف التلقائي للرسائل المحذوفة بعد 30 يوماً ==========
 cron.schedule('0 2 * * *', async () => {
-    console.log('🔄 Running permanent deletion of old deleted messages...');
     const result = await pool.query(
         `DELETE FROM messages 
          WHERE is_deleted = true 
          AND created_at < NOW() - INTERVAL '30 days'
          RETURNING id`
     );
-    console.log(`✅ Permanently deleted ${result.rows.length} old messages`);
 });
 
 // ========== المسارات الأساسية ==========
@@ -1234,7 +1230,6 @@ io.use((socket, next) => {
 });
 
 io.on('connection', async (socket) => {
-    console.log(`User connected: ${socket.user.username}`);
     socket.currentRoom = 1;
     await pool.query(`UPDATE users SET is_online = true WHERE id = $1`, [socket.user.id]);
 
@@ -1244,7 +1239,6 @@ io.on('connection', async (socket) => {
         if (previousRoomId) socket.leave(`room_${previousRoomId}`);
         socket.join(`room_${roomId}`);
         socket.currentRoom = roomId;
-        console.log(`${socket.user.username} joined room ${roomId}`);
         socket.emit('room-joined', { roomId });
     });
 
@@ -1255,7 +1249,6 @@ io.on('connection', async (socket) => {
         processedMessages.add(messageKey);
         setTimeout(() => processedMessages.delete(messageKey), 2000);
 
-        console.log(`Message from ${socket.user.username} to room ${roomId}: ${data.text}`);
 
         try {
             const result = await pool.query(
@@ -1288,7 +1281,6 @@ io.on('connection', async (socket) => {
             
             if (messageResult.rows.length > 0) {
                 await createBackup(messageId, messageResult.rows[0].content);
-                console.log(`✅ Backup created for message ${messageId} before deletion`);
             }
             
             await pool.query(`UPDATE messages SET is_deleted = true WHERE id = $1`, [messageId]);
@@ -1332,7 +1324,6 @@ io.on('connection', async (socket) => {
     });
 
     socket.on('disconnect', async () => {
-        console.log(`User disconnected: ${socket.user.username}`);
         await pool.query(`UPDATE users SET is_online = false WHERE id = $1`, [socket.user.id]);
         io.emit('user-offline', { userId: socket.user.id });
     });
