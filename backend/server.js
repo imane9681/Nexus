@@ -26,7 +26,11 @@ const io = socketIo(server, {
 app.use(cors());
 app.use(express.json());
 
-const SECRET_KEY = 'your-secret-key-swiss-knife-2026';
+const SECRET_KEY = process.env.JWT_SECRET;
+if (!SECRET_KEY) {
+  throw new Error('JWT_SECRET is required');
+}
+
 const processedMessages = new Set();
 
 // ========== verifyToken Middleware ==========

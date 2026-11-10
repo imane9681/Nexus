@@ -2,7 +2,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { pool } = require('./database');
 
-const SECRET_KEY = 'your-secret-key-swiss-knife-2026';
+const SECRET_KEY = process.env.JWT_SECRET;
+if (!SECRET_KEY) {
+  throw new Error('JWT_SECRET is required');
+}
 
 // تسجيل مستخدم جديد
 const register = async (req, res) => {
